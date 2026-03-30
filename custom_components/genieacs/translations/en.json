@@ -1,0 +1,63 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to GenieACS",
+        "description": "Enter the NBI (Northbound Interface) URL and optional credentials for your GenieACS instance.",
+        "data": {
+          "nbi_url": "NBI URL",
+          "username": "Username",
+          "password": "Password"
+        },
+        "data_description": {
+          "nbi_url": "The URL of the GenieACS NBI API (e.g. http://genieacs:7557).",
+          "username": "HTTP Basic auth username (leave empty if auth is disabled).",
+          "password": "HTTP Basic auth password."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect to the GenieACS NBI. Verify the URL is correct and the service is running.",
+      "invalid_auth": "Invalid credentials. Check the username and password.",
+      "unknown": "An unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This GenieACS instance is already configured."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "online": {
+        "name": "Online"
+      }
+    },
+    "sensor": {
+      "wan_ip": {
+        "name": "WAN IP address"
+      },
+      "uptime": {
+        "name": "Uptime"
+      },
+      "firmware": {
+        "name": "Firmware"
+      },
+      "manufacturer": {
+        "name": "Manufacturer"
+      },
+      "model": {
+        "name": "Model"
+      },
+      "serial": {
+        "name": "Serial number"
+      }
+    },
+    "button": {
+      "reboot": {
+        "name": "Reboot"
+      },
+      "refresh": {
+        "name": "Refresh parameters"
+      }
+    }
+  }
+}

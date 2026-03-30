@@ -1,0 +1,12 @@
+{
+  "domain": "genieacs",
+  "name": "GenieACS",
+  "codeowners": ["@GeiserX"],
+  "config_flow": true,
+  "documentation": "https://github.com/GeiserX/genieacs-ha",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/GeiserX/genieacs-ha/issues",
+  "requirements": ["aiohttp>=3.9.0"],
+  "version": "1.0.0",
+  "integration_type": "hub"
+}
