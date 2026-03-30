@@ -3,7 +3,7 @@
 [![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2024.1+-blue.svg)](https://www.home-assistant.io/)
 [![GitHub Stars](https://img.shields.io/github/stars/GeiserX/genieacs-ha.svg)](https://github.com/GeiserX/genieacs-ha/stargazers)
-[![License: MIT](https://img.shields.io/github/license/GeiserX/genieacs-ha.svg)](LICENSE)
+[![License: GPL-3.0](https://img.shields.io/github/license/GeiserX/genieacs-ha.svg)](LICENSE)
 
 A Home Assistant custom integration for managing TR-069 CPE devices (routers, ONTs, gateways) through a [GenieACS](https://genieacs.com/) instance.
 
@@ -71,4 +71,4 @@ This integration automatically handles both. It checks both root paths when read
 
 ## License
 
-[MIT](LICENSE)
+[GPL-3.0](LICENSE)
