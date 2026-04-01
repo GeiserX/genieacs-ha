@@ -66,7 +66,7 @@ This integration automatically handles both. It checks both root paths when read
 
 ## Related Projects
 
-- [genieacs-docker](https://github.com/GeiserX/genieacs-docker) -- Production-ready Docker deployment for GenieACS
+- [genieacs-container](https://github.com/GeiserX/genieacs-container) -- Production-ready Docker deployment for GenieACS
 - [genieacs-mcp](https://github.com/GeiserX/genieacs-mcp) -- Model Context Protocol server for GenieACS
 
 ## License
