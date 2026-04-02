@@ -69,6 +69,12 @@ This integration automatically handles both. It checks both root paths when read
 - [genieacs-container](https://github.com/GeiserX/genieacs-container) -- Production-ready Docker deployment for GenieACS
 - [genieacs-mcp](https://github.com/GeiserX/genieacs-mcp) -- Model Context Protocol server for GenieACS
 
+## Other Home Assistant Integrations by GeiserX
+
+- [cashpilot-ha](https://github.com/GeiserX/cashpilot-ha) — Passive income earnings sensors
+- [duplicacy-ha](https://github.com/GeiserX/duplicacy-ha) — Backup status monitoring
+- [pumperly-ha](https://github.com/GeiserX/pumperly-ha) — Fuel and EV charging price sensors
+
 ## License
 
 [GPL-3.0](LICENSE)
