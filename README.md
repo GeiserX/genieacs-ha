@@ -64,10 +64,18 @@ TR-069 devices use one of two parameter tree roots:
 
 This integration automatically handles both. It checks both root paths when reading device parameters, so it works with any compliant CPE regardless of which data model it implements.
 
-## Related Projects
+## GenieACS Ecosystem
 
-- [genieacs-container](https://github.com/GeiserX/genieacs-container) -- Production-ready Docker deployment for GenieACS
-- [genieacs-mcp](https://github.com/GeiserX/genieacs-mcp) -- Model Context Protocol server for GenieACS
+This project is part of a broader set of tools for working with GenieACS:
+
+| Project | Type | Description |
+|---------|------|-------------|
+| [genieacs-docker](https://github.com/GeiserX/genieacs-docker) | Docker + Helm | Production-ready multi-arch Docker image and Helm chart |
+| [genieacs-ansible](https://github.com/GeiserX/genieacs-ansible) | Ansible Collection | Dynamic inventory plugin and device management modules |
+| [genieacs-mcp](https://github.com/GeiserX/genieacs-mcp) | MCP Server | AI-assisted device management via Model Context Protocol |
+| [n8n-nodes-genieacs](https://github.com/GeiserX/n8n-nodes-genieacs) | n8n Node | Workflow automation for GenieACS |
+| [genieacs-services](https://github.com/GeiserX/genieacs-services) | Service Defs | Systemd/Supervisord service definitions |
+| [genieacs-sim-docker](https://github.com/GeiserX/genieacs-sim-docker) | Simulator | Docker-based GenieACS simulator for testing |
 
 ## Other Home Assistant Integrations by GeiserX
 
