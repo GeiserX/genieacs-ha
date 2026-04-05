@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/banner.svg" alt="GenieACS for Home Assistant banner" width="900"/>
+</p>
+
 # GenieACS for Home Assistant
 
 [![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
