@@ -1,4 +1,4 @@
-# AGENTS.md — GenieACS HA
+# CLAUDE.md — GenieACS HA
 
 ## Project Overview
 
