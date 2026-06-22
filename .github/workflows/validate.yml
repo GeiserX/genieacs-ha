@@ -12,6 +12,10 @@ permissions: {}
 jobs:
   validate-hacs:
     runs-on: [self-hosted, Linux, X64]
+    # Do not run untrusted fork PR code on the self-hosted runner.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v6
       - uses: hacs/action@main
@@ -20,6 +24,10 @@ jobs:
 
   validate-hassfest:
     runs-on: [self-hosted, Linux, X64]
+    # Do not run untrusted fork PR code on the self-hosted runner.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v6
       - uses: home-assistant/actions/hassfest@master
