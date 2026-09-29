@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/banner.svg" alt="GenieACS for Home Assistant banner" width="900"/>
+  <img src="https://raw.githubusercontent.com/GeiserX/genieacs-ha/main/docs/images/banner.svg" alt="GenieACS for Home Assistant banner" width="900"/>
 </p>
 
 # GenieACS for Home Assistant
