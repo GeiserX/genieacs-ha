@@ -31,8 +31,9 @@ CPE whichever data model it implements.
 
 ## Example automation
 
-Notify when a router stops reporting to GenieACS for 10 minutes. Replace the entity ID with the one
-Home Assistant gave your device's Online sensor:
+Notify when a router stops reporting to GenieACS for 10 minutes: the Online sensor turns off after 5
+minutes without a report, and the trigger waits 5 more. Replace the entity ID with the one Home Assistant
+gave your device's Online sensor:
 
 ```yaml
 automation:
@@ -41,7 +42,7 @@ automation:
       - trigger: state
         entity_id: binary_sensor.acme_router_x1_online
         to: "off"
-        for: "00:10:00"
+        for: "00:05:00"
     actions:
       - action: notify.notify
         data:

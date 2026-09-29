@@ -5,7 +5,7 @@
 # GenieACS for Home Assistant
 
 [![Tests](https://github.com/GeiserX/genieacs-ha/actions/workflows/tests.yml/badge.svg)](https://github.com/GeiserX/genieacs-ha/actions/workflows/tests.yml)
-[![License: GPL-3.0](https://img.shields.io/github/license/GeiserX/genieacs-ha.svg)](https://github.com/GeiserX/genieacs-ha/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/GeiserX/genieacs-ha.svg)](https://github.com/GeiserX/genieacs-ha/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/GeiserX/genieacs-ha/graph/badge.svg)](https://codecov.io/gh/GeiserX/genieacs-ha)
 [![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![GitHub Stars](https://img.shields.io/github/stars/GeiserX/genieacs-ha.svg)](https://github.com/GeiserX/genieacs-ha/stargazers)
@@ -26,7 +26,7 @@ A Home Assistant custom integration for managing TR-069 CPE devices (routers, ON
 1. In HACS, open the three-dot menu > **Custom repositories** and add `https://github.com/GeiserX/genieacs-ha` with category **Integration**.
 2. Search for "GenieACS", install it, and restart Home Assistant.
 3. Go to **Settings > Devices & services > Add integration** and search for **GenieACS**.
-4. Enter your NBI URL, for example `http://genieacs:7557`, and the Basic auth credentials if your NBI needs them.
+4. Enter your NBI URL, for example `http://genieacs:7557`. If your NBI needs Basic auth, put it behind HTTPS and use an `https://` URL, so the credentials are not sent in clear text.
 
 Manual install and what a working setup looks like are in [Getting started](https://github.com/GeiserX/genieacs-ha/blob/main/docs/getting-started.md).
 
