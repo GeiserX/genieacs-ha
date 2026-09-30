@@ -14,7 +14,7 @@ For each CPE device managed by GenieACS, the integration creates the following e
 | Model | Sensor | Device model name (diagnostic) |
 | Serial number | Sensor | Device serial number (diagnostic) |
 | Reboot | Button | Send a reboot command to the device via TR-069 |
-| Refresh parameters | Button | Trigger a parameter refresh from the device (diagnostic) |
+| Refresh parameters | Button | Ask the device to report its firmware, manufacturer, model, serial number and uptime again (diagnostic) |
 
 The buttons queue a task in GenieACS and send a connection request, so a device the ACS can reach runs
 it at once; any other device runs it at its next inform.
@@ -26,8 +26,9 @@ TR-069 devices use one of two parameter tree roots:
 - **TR-181**: `Device.` (newer standard)
 - **TR-098**: `InternetGatewayDevice.` (older standard)
 
-The integration checks both root paths when reading device parameters, so it works with any compliant
-CPE whichever data model it implements.
+The integration reads each parameter under `Device.` first and `InternetGatewayDevice.` second, so the
+device information sensors work with either model. The WAN IP address sensor reads a TR-098 path only and
+stays empty on TR-181 devices and PPPoE lines; [How it works](how-it-works.md#parameters) lists every path.
 
 ## Example automation
 

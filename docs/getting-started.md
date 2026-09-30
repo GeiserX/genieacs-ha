@@ -35,6 +35,6 @@ credentials give "Invalid credentials". Each NBI URL can be added once.
 ## What working looks like
 
 Under **Settings > Devices & services > GenieACS** there is one device per CPE, named
-"<manufacturer> <model>", or the GenieACS device ID when the CPE reports neither, with nine entities:
+`<manufacturer> <model>`, or the GenieACS device ID when the CPE does not report both, with nine entities:
 the Online binary sensor, six sensors and two buttons. [Usage](usage.md) lists them. Values refresh
 every 60 seconds.
