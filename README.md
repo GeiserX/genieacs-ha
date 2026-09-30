@@ -28,12 +28,17 @@ A Home Assistant custom integration for managing TR-069 CPE devices (routers, ON
 3. Go to **Settings > Devices & services > Add integration** and search for **GenieACS**.
 4. Enter your NBI URL, for example `http://genieacs:7557`. If your NBI needs Basic auth, put it behind HTTPS and use an `https://` URL, so the credentials are not sent in clear text.
 
-Manual install and what a working setup looks like are in [Getting started](https://github.com/GeiserX/genieacs-ha/blob/main/docs/getting-started.md).
+Manual install and what a working setup looks like are in [Getting started](https://geiserx.github.io/genieacs-ha/getting-started/).
 
 ## Documentation
 
-- [Getting started](https://github.com/GeiserX/genieacs-ha/blob/main/docs/getting-started.md): prerequisites, HACS and manual install, configuration, first run
-- [Usage](https://github.com/GeiserX/genieacs-ha/blob/main/docs/usage.md): the entities, TR-181 and TR-098, an example automation
+The full documentation is at [geiserx.github.io/genieacs-ha](https://geiserx.github.io/genieacs-ha/).
+
+- [Getting started](https://geiserx.github.io/genieacs-ha/getting-started/): prerequisites, HACS and manual install, configuration, first run
+- [Usage](https://geiserx.github.io/genieacs-ha/usage/): the entities, TR-181 and TR-098, an example automation
+- [How it works](https://geiserx.github.io/genieacs-ha/how-it-works/): every request to GenieACS, the parameter behind each sensor, where the credentials are kept
+- [Troubleshooting](https://geiserx.github.io/genieacs-ha/troubleshooting/): each setup error and odd sensor with its fix, and what to put in a bug report
+- [Development](https://geiserx.github.io/genieacs-ha/development/): tests, CI checks, building the docs, releases
 
 ## Related projects
 
