@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "genieacs_ha",
+  "project_id": "3c007822-8224-45b3-8398-64900a208e52"
+}
