@@ -6,10 +6,15 @@ from unittest.mock import MagicMock
 
 import pytest
 
+from custom_components.genieacs.api import GenieAcsApiClient
 from custom_components.genieacs.const import DOMAIN
 from custom_components.genieacs.entity import GenieAcsEntity
 
-from .conftest import MOCK_DEVICE_NORMALIZED, make_coordinator
+from .conftest import (
+    MOCK_DEVICE_NORMALIZED,
+    MOCK_DEVICE_RAW_DEVICEID_ONLY,
+    make_coordinator,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -151,3 +156,31 @@ def test_device_info_when_no_device_data() -> None:
     # Should not raise; uses device_id as name
     assert info.name == "gone-device"
     assert info.identifiers == {(DOMAIN, "gone-device")}
+
+
+def test_device_info_name_from_device_id_fallback() -> None:
+    """A device known only by _deviceId is named "<manufacturer> <product class>"."""
+    client = GenieAcsApiClient.__new__(GenieAcsApiClient)
+    data = client._normalize_device(MOCK_DEVICE_RAW_DEVICEID_ONLY)
+    coordinator = make_coordinator(devices={data["device_id"]: data})
+    entity = GenieAcsEntity(coordinator, data["device_id"])
+    info = entity.device_info
+
+    assert info.name == "SimMfg SimRouter"
+    assert info.manufacturer == "SimMfg"
+    assert info.model == "SimRouter"
+
+
+def test_device_info_name_falls_back_to_serial() -> None:
+    """Without manufacturer and model, the serial names the device, not the raw id."""
+    data = {
+        "device_id": "A1B2C3-SimRouter-SN0002",
+        "manufacturer": None,
+        "model": None,
+        "serial": "SN0002",
+        "firmware": None,
+    }
+    coordinator = make_coordinator(devices={data["device_id"]: data})
+    entity = GenieAcsEntity(coordinator, data["device_id"])
+
+    assert entity.device_info.name == "SN0002"

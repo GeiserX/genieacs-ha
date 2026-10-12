@@ -16,7 +16,11 @@ from custom_components.genieacs.api import (
     GenieAcsError,
 )
 
-from .conftest import MOCK_DEVICE_RAW, MOCK_DEVICE_RAW_TR098
+from .conftest import (
+    MOCK_DEVICE_RAW,
+    MOCK_DEVICE_RAW_DEVICEID_ONLY,
+    MOCK_DEVICE_RAW_TR098,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -306,8 +310,13 @@ async def test_reboot_device() -> None:
 
 
 @pytest.mark.asyncio
-async def test_refresh_device() -> None:
-    """Test refresh sends a getParameterValues task."""
+@pytest.mark.parametrize("root", ["Device", "InternetGatewayDevice"])
+async def test_refresh_device_only_touches_own_root(root: str) -> None:
+    """Refresh sends one refreshObject under the device's root, never the other root.
+
+    GenieACS faults a task whose path ends in a dot ("Invalid parameter path"),
+    and a path under a root the CPE lacks makes the CPE fault.
+    """
     app = Application()
     received: dict[str, Any] = {}
 
@@ -320,9 +329,33 @@ async def test_refresh_device() -> None:
     async with TestServer(app) as server:
         async with ClientSession() as session:
             client = GenieAcsApiClient(session, str(server.make_url("")))
-            await client.async_refresh_device("test-device")
-            assert received["data"]["name"] == "getParameterValues"
-            assert isinstance(received["data"]["parameterNames"], list)
+            await client.async_refresh_device("test-device", root)
+    body = received["data"]
+    assert body == {"name": "refreshObject", "objectName": f"{root}.DeviceInfo"}
+    paths = [body.get("objectName"), *body.get("parameterNames", [])]
+    for path in filter(None, paths):
+        assert path.split(".")[0] == root
+        assert not path.endswith(".")
+
+
+@pytest.mark.asyncio
+async def test_refresh_device_unknown_root_sends_nothing() -> None:
+    """Without a known root, refresh raises instead of guessing a path."""
+    app = Application()
+    calls: list[Any] = []
+
+    async def handle(request: Request) -> Response:
+        calls.append(await request.json())
+        return json_response({})
+
+    app.router.add_post("/devices/{device_id}/tasks", handle)
+
+    async with TestServer(app) as server:
+        async with ClientSession() as session:
+            client = GenieAcsApiClient(session, str(server.make_url("")))
+            with pytest.raises(GenieAcsError, match="data model"):
+                await client.async_refresh_device("test-device", None)
+    assert calls == []
 
 
 # ---------------------------------------------------------------------------
@@ -391,6 +424,54 @@ def test_normalize_device_minimal() -> None:
     assert result["uptime"] is None
     assert result["wan_ip"] is None
     assert result["last_inform"] is None
+
+
+def test_normalize_device_detects_root() -> None:
+    """The normalized device records which data model root it reported."""
+    client = GenieAcsApiClient.__new__(GenieAcsApiClient)
+    assert client._normalize_device(MOCK_DEVICE_RAW)["root"] == "Device"
+    assert client._normalize_device(MOCK_DEVICE_RAW_TR098)["root"] == "InternetGatewayDevice"
+    assert client._normalize_device({"_id": "x"})["root"] is None
+
+
+def test_normalize_device_falls_back_to_device_id() -> None:
+    """Before DeviceInfo leaves are fetched, _deviceId supplies manufacturer, model, serial."""
+    client = GenieAcsApiClient.__new__(GenieAcsApiClient)
+    result = client._normalize_device(MOCK_DEVICE_RAW_DEVICEID_ONLY)
+    assert result["manufacturer"] == "SimMfg"
+    assert result["model"] == "SimRouter"
+    assert result["serial"] == "SN0001"
+    assert result["firmware"] == "2.0.0"
+    assert result["root"] == "InternetGatewayDevice"
+    assert result["uptime"] is None
+
+
+def test_normalize_device_leaves_win_over_device_id() -> None:
+    """DeviceInfo leaves, when present, take precedence over _deviceId."""
+    raw = dict(MOCK_DEVICE_RAW)
+    raw["_deviceId"] = {
+        "_Manufacturer": "IdMfg",
+        "_ProductClass": "IdClass",
+        "_SerialNumber": "IdSerial",
+    }
+    client = GenieAcsApiClient.__new__(GenieAcsApiClient)
+    result = client._normalize_device(raw)
+    assert result["manufacturer"] == "TestMfg"
+    assert result["model"] == "TestModel"
+    assert result["serial"] == "AABBCC"
+
+
+def test_normalize_device_ignores_malformed_device_id() -> None:
+    """A non-dict _deviceId is ignored rather than crashing."""
+    client = GenieAcsApiClient.__new__(GenieAcsApiClient)
+    result = client._normalize_device({"_id": "x", "_deviceId": "garbage"})
+    assert result["manufacturer"] is None
+
+
+def test_projection_requests_device_id() -> None:
+    """The NBI projection must ask for _deviceId or the fallback never has data."""
+    from custom_components.genieacs.api import DEVICE_PROJECTION
+    assert "_deviceId" in DEVICE_PROJECTION.split(",")
 
 
 def test_normalize_device_unknown_id() -> None:

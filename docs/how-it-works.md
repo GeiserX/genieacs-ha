@@ -20,9 +20,9 @@ flowchart LR
 | When | Request to the NBI |
 |------|--------------------|
 | You submit the setup form | `GET /devices/?projection=_id&limit=1`, to test the URL and the credentials |
-| Every 60 seconds, and right after a button press | `GET /devices/` with the projection `_id`, `_lastInform`, `_registered`, `_tags`, and the `DeviceInfo` and `WANDevice` subtrees under both roots. One request returns every device. |
+| Every 60 seconds, and right after a button press | `GET /devices/` with the projection `_id`, `_deviceId`, `_lastInform`, `_registered`, `_tags`, and the `DeviceInfo` and `WANDevice` subtrees under both roots. One request returns every device. |
 | You press **Reboot** | `POST /devices/<device ID>/tasks?connection_request=&timeout=3000` with the body `{"name": "reboot"}` |
-| You press **Refresh parameters** | the same `POST` with a `getParameterValues` task for `Device.DeviceInfo.` and `InternetGatewayDevice.DeviceInfo.` |
+| You press **Refresh parameters** | the same `POST` with the body `{"name": "refreshObject", "objectName": "<root>.DeviceInfo"}`, where `<root>` is `Device` or `InternetGatewayDevice`, whichever the device reported |
 
 For a task, GenieACS sends the device a connection request and waits up to 3 seconds for the session. A
 device that answers runs the task at once. A device GenieACS cannot reach (behind NAT, or off) keeps the task
@@ -37,15 +37,16 @@ first and `InternetGatewayDevice.` (TR-098) second. The first root that has the 
 |--------|----------------------------|
 | Online | GenieACS's `_lastInform` time: on when it is less than 5 minutes old |
 | Firmware | `DeviceInfo.SoftwareVersion` |
-| Manufacturer | `DeviceInfo.Manufacturer` |
-| Model | `DeviceInfo.ModelName` |
-| Serial number | `DeviceInfo.SerialNumber` |
+| Manufacturer | `DeviceInfo.Manufacturer`, or `_deviceId._Manufacturer` until GenieACS has read it |
+| Model | `DeviceInfo.ModelName`, or `_deviceId._ProductClass` until GenieACS has read it |
+| Serial number | `DeviceInfo.SerialNumber`, or `_deviceId._SerialNumber` until GenieACS has read it |
 | Uptime | `DeviceInfo.UpTime`, in seconds |
 | WAN IP address | `WANDevice.1.WANConnectionDevice.1.WANIPConnection.1.ExternalIPAddress` |
 
 The values are as fresh as GenieACS's copy: the device's last inform, or the last time GenieACS read the
-parameter. Polling never asks a device for a value; **Refresh parameters** does, for the `DeviceInfo`
-parameters only.
+parameter. `_deviceId` is the identity the device sends in every inform, so manufacturer, model and serial
+number are known from the first inform. Polling never asks a device for a value; **Refresh parameters** does,
+for the `DeviceInfo` parameters under the device's own root only.
 
 The WAN IP path is the first IP connection of the first WAN device in the TR-098 model. A TR-181 device keeps
 its address under `Device.IP.Interface.`, and a PPPoE line under `WANPPPConnection`, so on those the sensor

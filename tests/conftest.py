@@ -328,8 +328,25 @@ MOCK_DEVICE_RAW_TR098 = {
     },
 }
 
+# A CPE that has informed but whose DeviceInfo leaves GenieACS has not fetched yet:
+# the document only has the Inform's _deviceId and the parameters the Inform carried.
+MOCK_DEVICE_RAW_DEVICEID_ONLY = {
+    "_id": "A1B2C3-SimRouter-SN0001",
+    "_lastInform": "2026-01-01T12:00:00.000Z",
+    "_deviceId": {
+        "_Manufacturer": "SimMfg",
+        "_OUI": "A1B2C3",
+        "_ProductClass": "SimRouter",
+        "_SerialNumber": "SN0001",
+    },
+    "InternetGatewayDevice": {
+        "DeviceInfo": {"SoftwareVersion": {"_value": "2.0.0"}},
+    },
+}
+
 MOCK_DEVICE_NORMALIZED = {
     "device_id": "001122-TestRouter-AABBCC",
+    "root": "Device",
     "manufacturer": "TestMfg",
     "model": "TestModel",
     "serial": "AABBCC",
@@ -342,6 +359,7 @@ MOCK_DEVICE_NORMALIZED = {
 
 MOCK_DEVICE_NORMALIZED_TR098 = {
     "device_id": "TR098-Router-112233",
+    "root": "InternetGatewayDevice",
     "manufacturer": "OldMfg",
     "model": "OldModel",
     "serial": "112233",

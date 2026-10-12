@@ -59,8 +59,11 @@ GenieACS UI, it is missing in Home Assistant too.
   It stays empty on a TR-181 device, which keeps its address under `Device.IP.Interface.`, on a PPPoE line,
   which uses `WANPPPConnection`, and on a device whose connection is not the first one. **Refresh
   parameters** does not fill it: that button asks for the `DeviceInfo` parameters only.
-- **Firmware, Manufacturer, Model, Serial number, Uptime**: press **Refresh parameters** on the device. If
-  the value is still missing after the device's next session, the device does not report it.
+- **Firmware, Uptime**: press **Refresh parameters** on the device. If the value is still missing after
+  the device's next session, the device does not report it.
+- **Manufacturer, Model, Serial number** come from the identity the device sends in every inform, so they
+  are filled from its first inform. Model shows the product class until **Refresh parameters** reads
+  `DeviceInfo.ModelName`.
 
 The parameter behind every sensor is on [How it works](how-it-works.md#parameters).
 
