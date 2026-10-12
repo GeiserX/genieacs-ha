@@ -10,7 +10,7 @@ hide:
 </p>
 
 <p align="center">
-  <a href="https://hacs.xyz/"><img alt="HACS: Custom" src="https://img.shields.io/badge/HACS-Custom-41BDF5?style=flat-square"></a>
+  <a href="https://hacs.xyz/"><img alt="HACS: Default" src="https://img.shields.io/badge/HACS-Default-41BDF5?style=flat-square"></a>
   <a href="https://github.com/GeiserX/genieacs-ha/stargazers"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/GeiserX/genieacs-ha?style=flat-square&logo=github"></a>
   <a href="https://github.com/GeiserX/genieacs-ha/releases"><img alt="Release" src="https://img.shields.io/github/v/release/GeiserX/genieacs-ha?style=flat-square"></a>
   <a href="https://github.com/GeiserX/genieacs-ha/blob/main/LICENSE"><img alt="License: GPL-3.0-or-later" src="https://img.shields.io/github/license/GeiserX/genieacs-ha?style=flat-square"></a>
@@ -26,7 +26,7 @@ hide:
 
     ---
 
-    Add the custom repository, install, restart Home Assistant. A manual copy works too.
+    Search for GenieACS in HACS, download, restart Home Assistant. A manual copy works too.
 
 -   :material-play-circle-outline: **[First run](getting-started.md#configure)**
 

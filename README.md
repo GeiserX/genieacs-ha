@@ -7,7 +7,7 @@
 [![Tests](https://github.com/GeiserX/genieacs-ha/actions/workflows/tests.yml/badge.svg)](https://github.com/GeiserX/genieacs-ha/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/GeiserX/genieacs-ha.svg)](https://github.com/GeiserX/genieacs-ha/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/GeiserX/genieacs-ha/graph/badge.svg)](https://codecov.io/gh/GeiserX/genieacs-ha)
-[![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
+[![HACS](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![GitHub Stars](https://img.shields.io/github/stars/GeiserX/genieacs-ha.svg)](https://github.com/GeiserX/genieacs-ha/stargazers)
 
 A Home Assistant custom integration for managing TR-069 CPE devices (routers, ONTs, gateways) through a [GenieACS](https://genieacs.com/) instance. It reads the GenieACS Northbound Interface (NBI) REST API and brings every managed device into Home Assistant.
@@ -23,10 +23,12 @@ A Home Assistant custom integration for managing TR-069 CPE devices (routers, ON
 
 ## Quick start
 
-1. In HACS, open the three-dot menu > **Custom repositories** and add `https://github.com/GeiserX/genieacs-ha` with category **Integration**.
-2. Search for "GenieACS", install it, and restart Home Assistant.
-3. Go to **Settings > Devices & services > Add integration** and search for **GenieACS**.
-4. Enter your NBI URL, for example `http://genieacs:7557`. If your NBI needs Basic auth, put it behind HTTPS and use an `https://` URL, so the credentials are not sent in clear text.
+1. In HACS, search for **GenieACS**, download it and restart Home Assistant. Or open it in HACS directly:
+
+   [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=GeiserX&repository=genieacs-ha&category=integration)
+
+2. Go to **Settings > Devices & services > Add integration** and search for **GenieACS**.
+3. Enter your NBI URL, for example `http://genieacs:7557`. If your NBI needs Basic auth, put it behind HTTPS and use an `https://` URL, so the credentials are not sent in clear text.
 
 Manual install and what a working setup looks like are in [Getting started](https://geiserx.github.io/genieacs-ha/getting-started/).
 
