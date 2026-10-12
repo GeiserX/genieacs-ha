@@ -5,7 +5,7 @@ Home Assistant custom integration for managing TR-069 CPE devices (routers, ONTs
 
 ## Tech Stack
 - Python (Home Assistant custom component)
-- HACS-compatible integration
+- HACS (default store, since 2026-05-21)
 - pytest for testing
 - Codecov for coverage
 - GitHub Actions CI
@@ -16,7 +16,7 @@ pip install -r requirements-test.txt
 pytest tests/
 ```
 
-Install via HACS or copy `custom_components/genieacs/` into HA config directory.
+Install from the HACS default store (no custom repository needed) or copy `custom_components/genieacs/` into HA config directory.
 
 ## Architecture
 - `custom_components/genieacs/` — HA integration code (config flow, sensors, binary sensors)

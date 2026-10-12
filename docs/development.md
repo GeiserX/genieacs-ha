@@ -51,7 +51,7 @@ publishes the site.
 ## Releases
 
 A release is a GitHub release tagged `vX.Y.Z`, with the same version in
-`custom_components/genieacs/manifest.json` (`v1.0.1` and `"version": "1.0.1"` today). HACS offers the newest
+`custom_components/genieacs/manifest.json` (`v1.0.2` and `"version": "1.0.2"` today). HACS offers the newest
 release to users as an update.
 
 ## Contributing

@@ -8,11 +8,14 @@
 
 ## Install with HACS
 
+GenieACS is in the HACS default store, so there is no custom repository to add.
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=GeiserX&repository=genieacs-ha&category=integration)
+
 1. Open HACS in Home Assistant.
-2. Click the three-dot menu in the top right and select **Custom repositories**.
-3. Add `https://github.com/GeiserX/genieacs-ha` with category **Integration**.
-4. Search for "GenieACS" and install it.
-5. Restart Home Assistant.
+2. Search for **GenieACS** and open it.
+3. Click **Download**.
+4. Restart Home Assistant.
 
 ## Install manually
 
