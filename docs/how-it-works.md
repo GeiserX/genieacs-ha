@@ -55,7 +55,8 @@ stays empty.
 ## What Home Assistant gets
 
 - One device per GenieACS device, identified by the GenieACS device ID. Its name is the manufacturer and the
-  model, or the device ID when the device does not report both. Its software version is the Firmware value, and
+  model, falling back to `_deviceId` as described under [Parameters](#parameters). Without both, it is the
+  serial number, or the device ID when there is no serial either. Its software version is the Firmware value, and
   the link on its device page opens the NBI URL.
 - Nine entities per device, with unique IDs of the form `<device ID>_<key>` (`online`, `wan_ip`, `uptime`,
   `firmware`, `manufacturer`, `model`, `serial`, `reboot`, `refresh`). Firmware, Manufacturer, Model, Serial
