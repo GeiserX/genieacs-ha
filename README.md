@@ -12,6 +12,10 @@
 
 A Home Assistant custom integration for managing TR-069 CPE devices (routers, ONTs, gateways) through a [GenieACS](https://genieacs.com/) instance. It reads the GenieACS Northbound Interface (NBI) REST API and brings every managed device into Home Assistant.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/GeiserX/genieacs-ha/main/docs/images/device-page.png" alt="A GenieACS CPE device page in Home Assistant: online state, uptime, WAN IP, firmware, manufacturer and model, with Reboot and Refresh parameters buttons" width="700"/>
+</p>
+
 ## Features
 
 - Discovers every CPE your GenieACS manages through the NBI REST API and creates one Home Assistant device per CPE.
