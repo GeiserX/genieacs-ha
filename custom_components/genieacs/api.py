@@ -22,7 +22,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 DEVICE_PROJECTION = (
-    "_id,_lastInform,_registered,_tags,"
+    "_id,_deviceId,_lastInform,_registered,_tags,"
     "Device.DeviceInfo,InternetGatewayDevice.DeviceInfo,"
     "Device.WANDevice,InternetGatewayDevice.WANDevice"
 )
@@ -92,17 +92,22 @@ class GenieAcsApiClient:
             json_data={"name": "reboot"},
         )
 
-    async def async_refresh_device(self, device_id: str) -> None:
-        """Trigger a getParameterValues task to refresh device data."""
-        root = "Device."  # will be tried first; GenieACS ignores unknown paths gracefully
+    async def async_refresh_device(self, device_id: str, root: str | None) -> None:
+        """Ask GenieACS to re-read DeviceInfo under the device's own data model root.
+
+        GenieACS faults the whole task on a path with a trailing dot ("Invalid
+        parameter path"), and a root the CPE does not have makes the CPE fault,
+        so send exactly one dot-free path under the root the device reported.
+        """
+        if root not in (TR181_ROOT, TR098_ROOT):
+            raise GenieAcsError(
+                f"Device {device_id} has not reported its data model yet; cannot refresh it"
+            )
         await self._request(
             "POST",
             f"/devices/{device_id}/tasks",
             params={"connection_request": "", "timeout": "3000"},
-            json_data={
-                "name": "getParameterValues",
-                "parameterNames": [f"{root}DeviceInfo.", f"InternetGatewayDevice.DeviceInfo."],
-            },
+            json_data={"name": "refreshObject", "objectName": f"{root}.DeviceInfo"},
         )
 
     # ------------------------------------------------------------------
@@ -128,12 +133,27 @@ class GenieAcsApiClient:
             return node
         return None
 
+    @staticmethod
+    def _detect_root(raw: dict[str, Any]) -> str | None:
+        """Return the data model root the device reported, or None if neither is known."""
+        for root in (TR181_ROOT, TR098_ROOT):
+            if isinstance(raw.get(root), dict):
+                return root
+        return None
+
     def _normalize_device(self, raw: dict[str, Any]) -> dict[str, Any]:
-        """Convert raw GenieACS device data into a flat dict."""
+        """Convert raw GenieACS device data into a flat dict.
+
+        Manufacturer, model and serial fall back to the `_deviceId` the CPE sends
+        in every Inform, so they are known before the DeviceInfo leaves are fetched.
+        """
         device_id: str = raw.get("_id", "unknown")
-        manufacturer = self._get_param(raw, PARAM_MANUFACTURER)
-        model = self._get_param(raw, PARAM_MODEL)
-        serial = self._get_param(raw, PARAM_SERIAL)
+        ident = raw.get("_deviceId")
+        if not isinstance(ident, dict):
+            ident = {}
+        manufacturer = self._get_param(raw, PARAM_MANUFACTURER) or ident.get("_Manufacturer")
+        model = self._get_param(raw, PARAM_MODEL) or ident.get("_ProductClass")
+        serial = self._get_param(raw, PARAM_SERIAL) or ident.get("_SerialNumber")
         firmware = self._get_param(raw, PARAM_SOFTWARE_VERSION)
         uptime = self._get_param(raw, PARAM_UPTIME)
         wan_ip = self._get_param(raw, PARAM_WAN_IP)
@@ -141,6 +161,7 @@ class GenieAcsApiClient:
 
         return {
             "device_id": device_id,
+            "root": self._detect_root(raw),
             "manufacturer": manufacturer,
             "model": model,
             "serial": serial,

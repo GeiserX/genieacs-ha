@@ -28,7 +28,9 @@ _LOGGER = logging.getLogger(__name__)
 class GenieAcsButtonDescription(ButtonEntityDescription):
     """Describe a GenieACS button entity."""
 
-    press_fn: Callable[[GenieAcsApiClient, str], Coroutine[Any, Any, None]]
+    press_fn: Callable[
+        [GenieAcsApiClient, str, dict[str, Any]], Coroutine[Any, Any, None]
+    ]
 
 
 BUTTON_DESCRIPTIONS: tuple[GenieAcsButtonDescription, ...] = (
@@ -37,14 +39,16 @@ BUTTON_DESCRIPTIONS: tuple[GenieAcsButtonDescription, ...] = (
         translation_key="reboot",
         device_class=ButtonDeviceClass.RESTART,
         icon="mdi:restart",
-        press_fn=lambda client, did: client.async_reboot_device(did),
+        press_fn=lambda client, did, _data: client.async_reboot_device(did),
     ),
     GenieAcsButtonDescription(
         key="refresh",
         translation_key="refresh",
         icon="mdi:refresh",
         entity_category=EntityCategory.DIAGNOSTIC,
-        press_fn=lambda client, did: client.async_refresh_device(did),
+        press_fn=lambda client, did, data: client.async_refresh_device(
+            did, data.get("root")
+        ),
     ),
 )
 
@@ -83,6 +87,6 @@ class GenieAcsButton(GenieAcsEntity, ButtonEntity):
     async def async_press(self) -> None:
         """Handle the button press."""
         await self.entity_description.press_fn(
-            self.coordinator.client, self._device_id
+            self.coordinator.client, self._device_id, self.device_data or {}
         )
         await self.coordinator.async_request_refresh()

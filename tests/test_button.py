@@ -103,8 +103,28 @@ async def test_refresh_press_calls_api() -> None:
     button = GenieAcsButton(coordinator, "dev-123", BUTTON_DESCRIPTIONS[1])
     await button.async_press()
 
-    client.async_refresh_device.assert_awaited_once_with("dev-123")
+    client.async_refresh_device.assert_awaited_once_with("dev-123", None)
     coordinator.async_request_refresh.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_refresh_press_passes_device_root() -> None:
+    """Pressing refresh passes the root from the coordinator's device data."""
+    client = MagicMock()
+    client.async_refresh_device = AsyncMock()
+    client._nbi_url = "http://x:7557"
+
+    coordinator = make_coordinator(client=client)
+    coordinator.async_request_refresh = AsyncMock()
+
+    button = GenieAcsButton(
+        coordinator, "001122-TestRouter-AABBCC", BUTTON_DESCRIPTIONS[1]
+    )
+    await button.async_press()
+
+    client.async_refresh_device.assert_awaited_once_with(
+        "001122-TestRouter-AABBCC", "Device"
+    )
 
 
 # ---------------------------------------------------------------------------

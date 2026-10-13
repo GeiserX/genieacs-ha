@@ -44,7 +44,7 @@ class GenieAcsEntity(CoordinatorEntity[GenieAcsCoordinator]):
         name = (
             f"{manufacturer} {model}"
             if manufacturer and model
-            else self._device_id
+            else data.get("serial") or self._device_id
         )
         nbi_url: str = self.coordinator.client._nbi_url
         return DeviceInfo(
