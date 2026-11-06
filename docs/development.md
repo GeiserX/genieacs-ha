@@ -8,7 +8,7 @@
   `strings.json` and `translations/en.json` hold the UI text.
 - `tests/`: the pytest suite. `conftest.py` stubs the Home Assistant modules, so the tests run without
   installing Home Assistant.
-- `docs/` and `mkdocs.yml`: this site.
+- `docs/` and `zensical.toml`: this site.
 
 ## Run the tests
 
@@ -35,18 +35,21 @@ restart it, and add the integration. For devices without real hardware, run Geni
 | Tests | `test` | the pytest suite and its coverage |
 | Validate | `validate-hacs` | the repository against HACS's rules |
 | Validate | `validate-hassfest` | `manifest.json` and the translations against Home Assistant's rules |
-| Docs | `build (strict)` | this site builds with no broken link, missing page or page left out of the nav |
+| Docs | `build (strict)` | this site builds with no broken link, missing page, missing image or page left out of the nav |
 
 ## Build the docs
+
+The site is built with [Zensical](https://zensical.org/):
 
 ```bash
 python3 -m venv .venv-docs
 .venv-docs/bin/pip install -r docs/requirements-docs.txt
-.venv-docs/bin/mkdocs serve
+.venv-docs/bin/python -m zensical serve
 ```
 
-`mkdocs build --strict` is what the Docs workflow runs. A push to `main` that changes `docs/` or `mkdocs.yml`
-publishes the site.
+The Docs workflow runs `python -m zensical build --clean --strict`, then
+`python -I .github/scripts/site-check.py site` on the built site. A push to `main` that changes `docs/` or
+`zensical.toml` publishes the site.
 
 ## Releases
 
